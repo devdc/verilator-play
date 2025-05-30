@@ -373,6 +373,7 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root___ctor_var_reset(Vsha256_proces
     VL_RAND_RESET_W(512, vlSelf->sha256_processor_tb__DOT__uut__DOT__core_block);
     VL_RAND_RESET_W(256, vlSelf->sha256_processor_tb__DOT__uut__DOT__core_hash_init);
     vlSelf->sha256_processor_tb__DOT__uut__DOT__core_use_init = VL_RAND_RESET_I(1);
+    vlSelf->sha256_processor_tb__DOT__uut__DOT__core_busy = VL_RAND_RESET_I(1);
     VL_RAND_RESET_W(256, vlSelf->sha256_processor_tb__DOT__uut__DOT__hash_state);
     vlSelf->sha256_processor_tb__DOT__uut__DOT__total_bits = VL_RAND_RESET_Q(64);
     vlSelf->sha256_processor_tb__DOT__uut__DOT__seen_last = VL_RAND_RESET_I(1);

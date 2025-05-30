@@ -1468,6 +1468,8 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
     __Vdly__sha256_processor_tb__DOT__uut__DOT__byte_index = 0;
     CData/*0:0*/ __Vdly__sha256_processor_tb__DOT__uut__DOT__block_ready;
     __Vdly__sha256_processor_tb__DOT__uut__DOT__block_ready = 0;
+    CData/*0:0*/ __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy;
+    __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy = 0;
     VlWide<8>/*255:0*/ __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state;
     VL_ZERO_W(256, __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state);
     QData/*63:0*/ __Vdly__sha256_processor_tb__DOT__uut__DOT__total_bits;
@@ -1593,6 +1595,8 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
         = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__hash_state[6U];
     __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[7U] 
         = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__hash_state[7U];
+    __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy 
+        = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_busy;
     __Vdly__sha256_processor_tb__DOT__uut__DOT__block_ready 
         = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__block_ready;
     __Vdly__sha256_processor_tb__DOT__uut__DOT__byte_index 
@@ -2239,6 +2243,7 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
         vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_hash_init[7U] 
             = Vsha256_processor_tb__ConstPool__CONST_h9e67c271_0[7U];
         vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_use_init = 0U;
+        __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy = 0U;
         __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[0U] 
             = Vsha256_processor_tb__ConstPool__CONST_ha51a22ca_0[0U];
         __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[1U] 
@@ -2346,7 +2351,7 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
         }
     } else if ((3U == (IData)(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__state))) {
         if (((IData)(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__block_ready) 
-             & (~ (IData)(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_ready)))) {
+             & (~ (IData)(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_busy)))) {
             vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_block[0U] 
                 = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__block_buffer[0U];
             vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_block[1U] 
@@ -2398,10 +2403,12 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
             vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_use_init = 1U;
             vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_start = 1U;
             __Vdly__sha256_processor_tb__DOT__uut__DOT__block_ready = 0U;
+            __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy = 1U;
         } else {
             vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_start = 0U;
         }
         if (vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_ready) {
+            __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy = 0U;
             __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[0U] 
                 = vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_hash_out[0U];
             __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[1U] 
@@ -2497,6 +2504,8 @@ VL_INLINE_OPT void Vsha256_processor_tb___024root___nba_sequent__TOP__0(Vsha256_
         = __Vdly__sha256_processor_tb__DOT__uut__DOT__byte_index;
     vlSelfRef.sha256_processor_tb__DOT__uut__DOT__block_ready 
         = __Vdly__sha256_processor_tb__DOT__uut__DOT__block_ready;
+    vlSelfRef.sha256_processor_tb__DOT__uut__DOT__core_busy 
+        = __Vdly__sha256_processor_tb__DOT__uut__DOT__core_busy;
     vlSelfRef.sha256_processor_tb__DOT__uut__DOT__hash_state[0U] 
         = __Vdly__sha256_processor_tb__DOT__uut__DOT__hash_state[0U];
     vlSelfRef.sha256_processor_tb__DOT__uut__DOT__hash_state[1U] 

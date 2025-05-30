@@ -34,6 +34,7 @@ module sha256_processor (
     reg  [511:0] core_block;
     reg  [255:0] core_hash_init;
     reg          core_use_init;
+    reg          core_busy;
 
     sha256_core sha_core (
         .clk(clk),
@@ -66,6 +67,7 @@ module sha256_processor (
             core_block <= 0;
             core_hash_init <= 0;
             core_use_init <= 0;
+            core_busy <= 0;
             hash_state <= 256'h6a09e667bb67ae853c6ef372a54ff53a510e527f9b05688c1f83d9ab5be0cd19;
             total_bits <= 0;
             seen_last <= 0;
@@ -143,17 +145,19 @@ module sha256_processor (
                 end
 
                 HASH: begin
-                    if (block_ready && !core_ready) begin
+                    if (block_ready && !core_busy) begin
                         core_block <= block_buffer;
                         core_hash_init <= hash_state;
                         core_use_init <= 1;
                         core_start <= 1;
                         block_ready <= 0;
+                        core_busy <= 1;
                     end else begin
                         core_start <= 0;
                     end
 
                     if (core_ready) begin
+                        core_busy <= 0;
                         hash_state <= core_hash_out;
 
                         if (seen_last && need_length_block) begin
