@@ -1,0 +1,60 @@
+# Makefile for SHA256 1KB Processor Fixed Simulation
+
+# Verilator settings
+VERILATOR = verilator
+VERILATOR_FLAGS = -Wall -Wno-WIDTHTRUNC -Wno-WIDTHEXPAND -Wno-UNSIGNED -Wno-EOFNEWLINE -Wno-DECLFILENAME -Wno-UNUSEDPARAM -Wno-INFINITELOOP --no-timing --cc --exe --build --trace
+
+# Source files
+VERILOG_SOURCES = sha256_1kb_processor_fixed.v
+CPP_SOURCES = sha256_1kb_sim_main_fixed.cpp
+
+# Output executable
+EXECUTABLE = sha256_1kb_sim_fixed
+
+# Default target
+all: $(EXECUTABLE)
+
+# Build the fixed simulation
+$(EXECUTABLE): $(VERILOG_SOURCES) $(CPP_SOURCES)
+	@echo "Building SHA256 1KB processor fixed simulation..."
+	$(VERILATOR) $(VERILATOR_FLAGS) -top-module sha256_1kb_processor_fixed \
+		$(VERILOG_SOURCES) $(CPP_SOURCES) -o $(EXECUTABLE)
+	@echo "Build complete!"
+
+# Run the fixed simulation
+run: $(EXECUTABLE)
+	@echo "Running SHA256 1KB processor fixed simulation..."
+	./obj_dir/$(EXECUTABLE)
+	@echo "Simulation complete!"
+
+# Generate expected hash for verification
+verify:
+	@echo "Generating expected SHA256 hash for verification..."
+	@python3 -c "import hashlib; data = bytes(range(256)) * 4; print('Expected SHA256:', hashlib.sha256(data).hexdigest())"
+
+# View waveform (requires GTKWave)
+wave:
+	@if [ -f sha256_1kb_fixed_waveform.vcd ]; then \
+		echo "Opening waveform in GTKWave..."; \
+		gtkwave sha256_1kb_fixed_waveform.vcd; \
+	else \
+		echo "No waveform file found. Run 'make run' first."; \
+	fi
+
+# Clean build artifacts
+clean:
+	rm -rf obj_dir/
+	rm -f sha256_1kb_fixed_waveform.vcd
+	@echo "Clean complete!"
+
+# Help
+help:
+	@echo "Available targets:"
+	@echo "  all     - Build the fixed simulation (default)"
+	@echo "  run     - Build and run the fixed simulation"
+	@echo "  verify  - Generate expected SHA256 hash for verification"
+	@echo "  wave    - View waveform in GTKWave"
+	@echo "  clean   - Clean build artifacts"
+	@echo "  help    - Show this help message"
+
+.PHONY: all run verify wave clean help 

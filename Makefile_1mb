@@ -1,0 +1,97 @@
+# Makefile for SHA256 1MB Processor Simulation
+
+# Verilator settings
+VERILATOR = verilator
+VERILATOR_FLAGS = -Wall -Wno-WIDTHTRUNC -Wno-WIDTHEXPAND -Wno-UNSIGNED -Wno-EOFNEWLINE -Wno-DECLFILENAME -Wno-UNUSEDPARAM -Wno-INFINITELOOP --no-timing --cc --exe --build --trace
+
+# Source files
+VERILOG_SOURCES = sha256_1mb_processor.v
+CPP_SOURCES = sha256_1mb_sim_main.cpp
+CPP_QUICK_SOURCES = sha256_1mb_sim_main_quick.cpp
+
+# Output executable
+EXECUTABLE = sha256_1mb_sim
+EXECUTABLE_QUICK = sha256_1mb_sim_quick
+
+# Default target
+all: $(EXECUTABLE)
+
+# Build the 1MB simulation
+$(EXECUTABLE): $(VERILOG_SOURCES) $(CPP_SOURCES)
+	@echo "Building SHA256 1MB processor simulation..."
+	$(VERILATOR) $(VERILATOR_FLAGS) -top-module sha256_1mb_processor \
+		$(VERILOG_SOURCES) $(CPP_SOURCES) -o $(EXECUTABLE)
+	@echo "Build complete!"
+
+# Build the quick test simulation
+$(EXECUTABLE_QUICK): $(VERILOG_SOURCES) $(CPP_QUICK_SOURCES)
+	@echo "Building SHA256 1MB processor quick test..."
+	$(VERILATOR) $(VERILATOR_FLAGS) -top-module sha256_1mb_processor \
+		$(VERILOG_SOURCES) $(CPP_QUICK_SOURCES) -o $(EXECUTABLE_QUICK)
+	@echo "Quick test build complete!"
+
+# Run the 1MB simulation
+run: $(EXECUTABLE)
+	@echo "Running SHA256 1MB processor simulation..."
+	@echo "WARNING: This will process 1MB of data and may take several minutes..."
+	./obj_dir/$(EXECUTABLE)
+	@echo "Simulation complete!"
+
+# Run quick test
+quick: $(EXECUTABLE_QUICK)
+	@echo "Running SHA256 1MB processor quick test..."
+	./obj_dir/$(EXECUTABLE_QUICK)
+	@echo "Quick test complete!"
+
+# Generate expected hash for verification
+verify:
+	@echo "Generating expected SHA256 hash for 1MB verification..."
+	@python3 -c "import hashlib; data = bytes(range(256)) * 4096; print('Expected SHA256:', hashlib.sha256(data).hexdigest())"
+
+# Quick test with smaller data for verification
+test-small:
+	@echo "Testing with smaller data pattern..."
+	@python3 -c "import hashlib; data = bytes(range(256)) * 4; print('1KB pattern SHA256:', hashlib.sha256(data).hexdigest())"
+
+# View waveform (requires GTKWave)
+wave:
+	@if [ -f sha256_1mb_waveform.vcd ]; then \
+		echo "Opening waveform in GTKWave..."; \
+		gtkwave sha256_1mb_waveform.vcd; \
+	elif [ -f sha256_1mb_quick_waveform.vcd ]; then \
+		echo "Opening quick test waveform in GTKWave..."; \
+		gtkwave sha256_1mb_quick_waveform.vcd; \
+	else \
+		echo "No waveform file found. Run 'make quick' or 'make run' first."; \
+	fi
+
+# Clean build artifacts
+clean:
+	rm -rf obj_dir/
+	rm -f sha256_1mb_waveform.vcd sha256_1mb_quick_waveform.vcd
+	@echo "Clean complete!"
+
+# Performance estimation
+estimate:
+	@echo "Performance Estimation for 1MB SHA256 Processing:"
+	@echo "- Data size: 1MB = 1,048,576 bytes"
+	@echo "- Number of blocks: 2049 (2048 data + 1 padding)"
+	@echo "- Cycles per block: ~80 (64 compression + 16 setup)"
+	@echo "- Estimated total cycles: ~164,000"
+	@echo "- At 100MHz: ~1.64ms processing time"
+	@echo "- Estimated throughput: ~640 MB/s"
+
+# Help
+help:
+	@echo "Available targets:"
+	@echo "  all        - Build the 1MB simulation (default)"
+	@echo "  run        - Build and run the 1MB simulation"
+	@echo "  quick      - Build and run quick test (recommended first)"
+	@echo "  verify     - Generate expected SHA256 hash for 1MB"
+	@echo "  test-small - Test with 1KB pattern for quick verification"
+	@echo "  estimate   - Show performance estimates"
+	@echo "  wave       - View waveform in GTKWave"
+	@echo "  clean      - Clean build artifacts"
+	@echo "  help       - Show this help message"
+
+.PHONY: all run quick verify test-small estimate wave clean help 

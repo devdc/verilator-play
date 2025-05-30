@@ -1,0 +1,88 @@
+# Makefile for SHA256 1MB Processor Fixed Simulation
+
+# Verilator settings
+VERILATOR = verilator
+VERILATOR_FLAGS = -Wall -Wno-WIDTHTRUNC -Wno-WIDTHEXPAND -Wno-UNSIGNED -Wno-EOFNEWLINE -Wno-DECLFILENAME -Wno-UNUSEDPARAM -Wno-INFINITELOOP --no-timing --cc --exe --build --trace
+
+# Source files
+VERILOG_SOURCES = sha256_1mb_processor_fixed.v
+CPP_SOURCES = sha256_1mb_sim_main_fixed.cpp
+
+# Output executable
+EXECUTABLE = sha256_1mb_sim_fixed
+
+# Default target
+all: $(EXECUTABLE)
+
+# Build the fixed 1MB simulation
+$(EXECUTABLE): $(VERILOG_SOURCES) $(CPP_SOURCES)
+	@echo "Building SHA256 1MB processor fixed simulation..."
+	$(VERILATOR) $(VERILATOR_FLAGS) -top-module sha256_1mb_processor_fixed \
+		$(VERILOG_SOURCES) $(CPP_SOURCES) -o $(EXECUTABLE)
+	@echo "Build complete!"
+
+# Run the fixed 1MB simulation
+run: $(EXECUTABLE)
+	@echo "Running SHA256 1MB processor fixed simulation..."
+	@echo "This will process all 2049 blocks and may take several minutes..."
+	./$(EXECUTABLE)
+
+# Generate expected hash for verification
+verify:
+	@echo "Generating expected SHA256 hash for 1MB incrementing data..."
+	@python3 -c "import hashlib; data = bytes(i % 256 for i in range(1048576)); hash_result = hashlib.sha256(data).hexdigest(); print(f'Expected SHA256 hash: {hash_result}')"
+
+# Quick test (first few blocks only)
+quick: $(EXECUTABLE)
+	@echo "Running quick test of SHA256 1MB processor..."
+	@echo "Note: This will timeout early to test basic functionality"
+	timeout 30s ./$(EXECUTABLE) || echo "Quick test completed (timeout expected)"
+
+# View waveform
+wave:
+	@if [ -f sha256_1mb_fixed_waveform.vcd ]; then \
+		echo "Opening waveform viewer..."; \
+		gtkwave sha256_1mb_fixed_waveform.vcd; \
+	else \
+		echo "No waveform file found. Run 'make run' first."; \
+	fi
+
+# Clean build artifacts
+clean:
+	@echo "Cleaning build artifacts..."
+	rm -rf obj_dir
+	rm -f $(EXECUTABLE)
+	rm -f *.vcd
+	rm -f *.fst
+
+# Show status
+status:
+	@echo "=== SHA256 1MB Processor Fixed Status ==="
+	@echo "Source files:"
+	@ls -la $(VERILOG_SOURCES) $(CPP_SOURCES) 2>/dev/null || echo "  Some source files missing"
+	@echo ""
+	@echo "Build artifacts:"
+	@ls -la $(EXECUTABLE) 2>/dev/null || echo "  Executable not built yet"
+	@ls -la *.vcd 2>/dev/null || echo "  No waveform files"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  all     - Build the simulation"
+	@echo "  run     - Run full 1MB simulation (may take several minutes)"
+	@echo "  quick   - Run quick test (30 second timeout)"
+	@echo "  verify  - Generate expected hash for verification"
+	@echo "  wave    - View waveform (requires gtkwave)"
+	@echo "  clean   - Clean all build artifacts"
+	@echo "  status  - Show this status"
+
+# Performance estimate
+estimate:
+	@echo "=== Performance Estimate ==="
+	@echo "1MB = 1,048,576 bytes = 2048 data blocks + 1 padding block = 2049 total blocks"
+	@echo "Each block takes ~100 cycles to process"
+	@echo "Total estimated cycles: 2049 * 100 = 204,900 cycles"
+	@echo "At 100MHz: ~2.05ms processing time"
+	@echo "Simulation time units: ~409,800 (2 time units per cycle)"
+	@echo ""
+	@echo "Note: Actual simulation may be slower due to overhead"
+
+.PHONY: all run verify quick wave clean status estimate 

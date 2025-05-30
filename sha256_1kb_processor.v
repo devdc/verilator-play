@@ -4,13 +4,153 @@
 /* verilator lint_off WIDTHEXPAND */
 /* verilator lint_off UNSIGNED */
 
-module sha256_core (
+module sha256_1kb_processor (
+    input         clk,
+    input         rst,
+    input         start,
+    input  [8191:0] data_in,  // 1KB = 8192 bits of input data
+    output reg [255:0] hash_out,
+    output reg    done
+);
+
+    // State machine states
+    reg [2:0] state;
+    localparam IDLE = 3'd0;
+    localparam INIT_CORE = 3'd1;
+    localparam PROCESSING = 3'd2;
+    localparam WAITING = 3'd3;
+    localparam DONE_STATE = 3'd4;
+    
+    // Block counter
+    reg [4:0] block_count;  // 0 to 16 for 17 blocks total
+    
+    // SHA256 core interface
+    reg core_start;
+    reg [511:0] core_block_in;
+    wire [255:0] core_hash_out;
+    wire core_ready;
+    
+    // Padded data storage (1KB + padding = 17 blocks total)
+    reg [8703:0] padded_data;  // 17 * 512 = 8704 bits
+    
+    // Modified SHA256 core that supports chaining
+    sha256_core_chained core_inst (
+        .clk(clk),
+        .rst(rst),
+        .start(core_start),
+        .block_in(core_block_in),
+        .hash_out(core_hash_out),
+        .ready(core_ready),
+        .init_hash(block_count == 0)  // Initialize hash only for first block
+    );
+    
+    integer i;
+    
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            state <= IDLE;
+            done <= 0;
+            hash_out <= 0;
+            block_count <= 0;
+            core_start <= 0;
+            core_block_in <= 0;
+            padded_data <= 0;
+            
+            $display("SHA256_1KB_PROCESSOR: Reset");
+            
+        end else begin
+            case (state)
+                IDLE: begin
+                    if (start) begin
+                        $display("SHA256_1KB_PROCESSOR: Starting processing of 1KB data");
+                        done <= 0;
+                        block_count <= 0;
+                        
+                        // Prepare padded data according to SHA-256 specification
+                        // 1. Original message (8192 bits)
+                        padded_data[8703:512] <= data_in;
+                        
+                        // 2. Append single '1' bit
+                        padded_data[511] <= 1'b1;
+                        
+                        // 3. Append zeros to make total length ≡ 448 (mod 512)
+                        // We have 8192 + 1 = 8193 bits so far
+                        // We need to pad to 8704 - 64 = 8640 bits (448 mod 512 for last block)
+                        // So we need 8640 - 8193 = 447 zero bits
+                        for (i = 0; i < 447; i = i + 1) begin
+                            padded_data[510-i] <= 1'b0;
+                        end
+                        
+                        // 4. Append original length as 64-bit big-endian integer
+                        padded_data[63:0] <= 64'd8192;  // Length in bits
+                        
+                        $display("SHA256_1KB_PROCESSOR: Data padded, total blocks: 17");
+                        state <= PROCESSING;
+                    end
+                end
+                
+                PROCESSING: begin
+                    if (core_ready && !core_start) begin
+                        if (block_count < 17) begin  // Process 17 blocks total
+                            // Extract current block (512 bits) - MSB first
+                            core_block_in <= padded_data[8703 - block_count*512 -: 512];
+                            
+                            $display("SHA256_1KB_PROCESSOR: Processing block %d/17", block_count + 1);
+                            
+                            // Start core processing
+                            core_start <= 1;
+                            state <= WAITING;
+                        end else begin
+                            // All blocks processed
+                            hash_out <= core_hash_out;
+                            done <= 1;
+                            state <= DONE_STATE;
+                            
+                            $display("SHA256_1KB_PROCESSOR: All blocks processed");
+                            $display("Final SHA256 hash: %064h", core_hash_out);
+                        end
+                    end
+                end
+                
+                WAITING: begin
+                    // Clear start signal after one cycle
+                    if (core_start) begin
+                        core_start <= 0;
+                    end
+                    
+                    // Wait for core to complete
+                    if (core_ready && !core_start) begin
+                        block_count <= block_count + 1;
+                        
+                        $display("SHA256_1KB_PROCESSOR: Block %d completed", block_count + 1);
+                        
+                        state <= PROCESSING;
+                    end
+                end
+                
+                DONE_STATE: begin
+                    if (!start) begin
+                        state <= IDLE;
+                        done <= 0;
+                    end
+                end
+                
+                default: begin
+                    state <= IDLE;
+                end
+            endcase
+        end
+    end
+
+endmodule
+
+// Modified SHA256 core that supports proper chaining
+module sha256_core_chained (
     input         clk,
     input         rst,
     input         start,
     input  [511:0] block_in,
-    input  [255:0] hash_init,    // Initial hash values for chaining
-    input         use_init,      // Use hash_init instead of default values
+    input         init_hash,  // Whether to initialize hash values
     output reg [255:0] hash_out,
     output reg    ready
 );
@@ -18,7 +158,6 @@ module sha256_core (
     // SHA-256 constants (K values)
     reg [31:0] K [0:63];
     initial begin
-        // SHA-256 round constants
         K[0] = 32'h428a2f98; K[1] = 32'h71374491; K[2] = 32'hb5c0fbcf; K[3] = 32'he9b5dba5;
         K[4] = 32'h3956c25b; K[5] = 32'h59f111f1; K[6] = 32'h923f82a4; K[7] = 32'hab1c5ed5;
         K[8] = 32'hd807aa98; K[9] = 32'h12835b01; K[10] = 32'h243185be; K[11] = 32'h550c7dc3;
@@ -55,8 +194,8 @@ module sha256_core (
     reg [31:0] w [0:63];
     
     // Processing step counter
-    reg [6:0] t; // 7 bits to count from 0 to 63 (no longer 7 bits)
-    reg [6:0] msg_idx; // Index for message schedule calculation (6 bits instead of 7)
+    reg [5:0] t;
+    reg [5:0] msg_idx;
     
     // FSM state
     reg [1:0] state;
@@ -74,7 +213,6 @@ module sha256_core (
         end
     endfunction
     
-    // Ch(x,y,z) = (x AND y) XOR ((NOT x) AND z)
     function [31:0] ch;
         input [31:0] x, y, z;
         begin
@@ -82,7 +220,6 @@ module sha256_core (
         end
     endfunction
     
-    // Maj(x,y,z) = (x AND y) XOR (x AND z) XOR (y AND z)
     function [31:0] maj;
         input [31:0] x, y, z;
         begin
@@ -90,7 +227,6 @@ module sha256_core (
         end
     endfunction
     
-    // Σ0(x) = ROTR^2(x) XOR ROTR^13(x) XOR ROTR^22(x)
     function [31:0] sigma0;
         input [31:0] x;
         begin
@@ -98,7 +234,6 @@ module sha256_core (
         end
     endfunction
     
-    // Σ1(x) = ROTR^6(x) XOR ROTR^11(x) XOR ROTR^25(x)
     function [31:0] sigma1;
         input [31:0] x;
         begin
@@ -106,7 +241,6 @@ module sha256_core (
         end
     endfunction
     
-    // σ0(x) = ROTR^7(x) XOR ROTR^18(x) XOR SHR^3(x)
     function [31:0] sig0;
         input [31:0] x;
         begin
@@ -114,7 +248,6 @@ module sha256_core (
         end
     endfunction
     
-    // σ1(x) = ROTR^17(x) XOR ROTR^19(x) XOR SHR^10(x)
     function [31:0] sig1;
         input [31:0] x;
         begin
@@ -122,17 +255,15 @@ module sha256_core (
         end
     endfunction
     
-    // Compute T1 and T2 with current values
     assign T1 = h + sigma1(e) + ch(e, f, g) + K[t] + w[t];
     assign T2 = sigma0(a) + maj(a, b, c);
     
     integer i;
     
-    // Main state machine
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             state <= IDLE;
-            ready <= 0;
+            ready <= 1;  // Ready to accept first block
             hash_out <= 0;
             t <= 0;
             msg_idx <= 0;
@@ -147,31 +278,18 @@ module sha256_core (
             h6 <= H6_INIT;
             h7 <= H7_INIT;
             
-            // Initialize w for safety
             for (i = 0; i < 64; i = i + 1) begin
                 w[i] <= 0;
             end
-            
-            $display("RESET: sha256_core reset");
             
         end else begin
             case (state)
                 IDLE: begin
                     if (start) begin
-                        $display("IDLE -> PREP: Starting SHA-256 computation");
                         ready <= 0;
                         
                         // Initialize hash values for this block
-                        if (use_init) begin
-                            h0 <= hash_init[255:224];
-                            h1 <= hash_init[223:192];
-                            h2 <= hash_init[191:160];
-                            h3 <= hash_init[159:128];
-                            h4 <= hash_init[127:96];
-                            h5 <= hash_init[95:64];
-                            h6 <= hash_init[63:32];
-                            h7 <= hash_init[31:0];
-                        end else begin
+                        if (init_hash) begin
                             h0 <= H0_INIT;
                             h1 <= H1_INIT;
                             h2 <= H2_INIT;
@@ -181,33 +299,21 @@ module sha256_core (
                             h6 <= H6_INIT;
                             h7 <= H7_INIT;
                         end
+                        // Otherwise keep previous hash values for chaining
                         
-                        // Prepare to load message schedule
                         msg_idx <= 0;
-                        
-                        // Move to preparation state
                         state <= PREP;
                     end
                 end
                 
                 PREP: begin
-                    if (msg_idx == 0) begin
-                        $display("PREP: Preparing message schedule");
-                    end
-                    
                     if (msg_idx < 16) begin
-                        // First 16 words come directly from the input block
                         w[msg_idx] <= block_in[511 - 32*msg_idx -: 32];
-                        $display("w[%2d] = %h", msg_idx, block_in[511 - 32*msg_idx -: 32]);
                         msg_idx <= msg_idx + 1;
                     end else if (msg_idx < 64) begin
-                        // Compute the extended words
                         w[msg_idx] <= sig1(w[msg_idx-2]) + w[msg_idx-7] + sig0(w[msg_idx-15]) + w[msg_idx-16];
-                        $display("w[%2d] = %h (extended)", msg_idx, sig1(w[msg_idx-2]) + w[msg_idx-7] + sig0(w[msg_idx-15]) + w[msg_idx-16]);
                         msg_idx <= msg_idx + 1;
                     end else begin
-                        // Message schedule is fully prepared
-                        // Initialize working variables with current hash value
                         a <= h0;
                         b <= h1;
                         c <= h2;
@@ -217,10 +323,6 @@ module sha256_core (
                         g <= h6;
                         h <= h7;
                         
-                        $display("Working vars initialized to: a=%h b=%h c=%h d=%h e=%h f=%h g=%h h=%h", 
-                                 h0, h1, h2, h3, h4, h5, h6, h7);
-                        
-                        // Reset t counter and move to computation state
                         t <= 0;
                         state <= COMP;
                     end
@@ -228,12 +330,6 @@ module sha256_core (
                 
                 COMP: begin
                     if (t < 64) begin
-                        $display("COMP: Round t=%2d", t);
-                        $display("Round %2d: a=%h b=%h c=%h d=%h e=%h f=%h g=%h h=%h", 
-                                 t, a, b, c, d, e, f, g, h);
-                        $display("T1=%h T2=%h w[t]=%h", T1, T2, w[t]);
-                        
-                        // Update working variables
                         h <= g;
                         g <= f;
                         f <= e;
@@ -243,12 +339,8 @@ module sha256_core (
                         b <= a;
                         a <= T1 + T2;
                         
-                        // Move to next round
                         t <= t + 1;
                     end else begin
-                        // 64 rounds completed, compute final hash values
-                        $display("COMP -> DONE: All 64 rounds completed");
-                        
                         // Add compressed chunk to current hash value
                         h0 <= h0 + a;
                         h1 <= h1 + b;
@@ -259,27 +351,14 @@ module sha256_core (
                         h6 <= h6 + g;
                         h7 <= h7 + h;
                         
-                        $display("Final hash values: h0=%h+%h h1=%h+%h h2=%h+%h h3=%h+%h", 
-                                 h0, a, h1, b, h2, c, h3, d);
-                        $display("                   h4=%h+%h h5=%h+%h h6=%h+%h h7=%h+%h", 
-                                 h4, e, h5, f, h6, g, h7, h);
-                        
-                        // Move to done state
                         state <= DONE;
                     end
                 end
                 
                 DONE: begin
-                    // Concatenate the hash values to form the final hash
                     hash_out <= {h0, h1, h2, h3, h4, h5, h6, h7};
-                    
-                    $display("DONE: Final hash = %h%h%h%h%h%h%h%h", 
-                             h0, h1, h2, h3, h4, h5, h6, h7);
-                    
-                    // Set ready flag to signal completion
                     ready <= 1;
                     
-                    // Return to idle state
                     if (!start) begin
                         state <= IDLE;
                     end
@@ -288,4 +367,4 @@ module sha256_core (
         end
     end
 
-endmodule
+endmodule 
