@@ -35,6 +35,8 @@ module sha256_processor (
     reg  [255:0] core_hash_init;
     reg          core_use_init;
     reg          core_busy;
+    // Previous value of core_ready to detect rising edge (completion)
+    reg          core_ready_prev;
 
     sha256_core sha_core (
         .clk(clk),
@@ -68,6 +70,7 @@ module sha256_processor (
             core_hash_init <= 0;
             core_use_init <= 0;
             core_busy <= 0;
+            core_ready_prev <= 0;
             hash_state <= 256'h6a09e667bb67ae853c6ef372a54ff53a510e527f9b05688c1f83d9ab5be0cd19;
             total_bits <= 0;
             seen_last <= 0;
@@ -145,20 +148,22 @@ module sha256_processor (
                 end
 
                 HASH: begin
+                    // Issue a new block to the core only when it is not busy.
                     if (block_ready && !core_busy) begin
                         core_block <= block_buffer;
                         core_hash_init <= hash_state;
                         core_use_init <= 1;
                         core_start <= 1;
                         block_ready <= 0;
-                        core_busy <= 1;
+                        core_busy <= 1;   // Core is now busy with this block
                     end else begin
                         core_start <= 0;
                     end
 
-                    if (core_ready) begin
-                        core_busy <= 0;
-                        hash_state <= core_hash_out;
+                    // Detect rising edge of core_ready (block just finished)
+                    if (core_ready && !core_ready_prev) begin
+                        core_busy <= 0;           // Core is no longer busy
+                        hash_state <= core_hash_out;  // Update hash chain
 
                         if (seen_last && need_length_block) begin
                             // Prepare second padding block
@@ -180,6 +185,9 @@ module sha256_processor (
                             state <= LOAD;
                         end
                     end
+
+                    // Update previous-ready tracker each cycle
+                    core_ready_prev <= core_ready;
                 end
 
                 DONE: begin

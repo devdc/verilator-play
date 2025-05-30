@@ -32,6 +32,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vsha256_processor_tb___024root final : public
         CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__core_start;
         CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__core_use_init;
         CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__core_busy;
+        CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__core_ready_prev;
         CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__seen_last;
         CData/*0:0*/ sha256_processor_tb__DOT__uut__DOT__need_length_block;
         CData/*5:0*/ sha256_processor_tb__DOT__uut__DOT__pad_index;
@@ -80,9 +81,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vsha256_processor_tb___024root final : public
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__rightrotate__3__x;
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__ch__4__Vfuncout;
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__ch__4__x;
-        IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__ch__4__y;
     };
     struct {
+        IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__ch__4__y;
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__ch__4__z;
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__sigma0__5__Vfuncout;
         IData/*31:0*/ __Vfunc_sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__sigma0__5__x;
