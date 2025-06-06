@@ -18,7 +18,7 @@ Vsha256_processor_tb__Syms::Vsha256_processor_tb__Syms(VerilatedContext* context
     , TOP{this, namep}
 {
         // Check resources
-        Verilated::stackCheck(670);
+        Verilated::stackCheck(562);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-9);
     _vm_contextp__->timeprecision(-12);

@@ -1,9 +1,39 @@
 DFG 'post inline' patterns with depth 1
+            4 (AND vA:a vB:a):a
+            3 (ADD vA:a _A:a):a
+            2 (ADD _A:a _B:a):a
+            2 (ARRAYSEL vA:(w32)u[0:63] _A:a):b
+            2 (XOR _A:a _B:a)*:a
+            1 (AND _A:a vA:a):a
             1 (EQ cA:a vA:a):1
+            1 (NOT vA:a):a
+            1 (SEL@0 vA:a)*:b
+            1 (XOR _A:a _B:a):a
 
 DFG 'post inline' patterns with depth 2
+            2 (ARRAYSEL vA:(w32)u[0:63] (SEL@0 vB:a)*:b):c
+            1 (ADD (ARRAYSEL vA:(w32)u[0:63] _A:a):b (ARRAYSEL vB:(w32)u[0:63] _A:a):b):b
+            1 (ADD (XOR _A:a _B:a)*:a (ADD _C:a _D:a):a):a
+            1 (ADD vA:a (ADD _A:a _B:a):a):a
+            1 (ADD vA:a (ADD vB:a _A:a):a):a
+            1 (ADD vA:a (XOR _A:a _B:a)*:a):a
+            1 (AND (NOT vA:a):a vB:a):a
+            1 (XOR (AND vA:a vB:a):a (AND _A:a vC:a):a)*:a
+            1 (XOR (AND vA:a vB:a):a (AND vC:a vB:a):a):a
+            1 (XOR (AND vA:a vB:a):a (XOR _A:a _B:a):a)*:a
 
 DFG 'post inline' patterns with depth 3
+            1 (ADD (ARRAYSEL vA:(w32)u[0:63] (SEL@0 vB:a)*:b):c (ARRAYSEL vC:(w32)u[0:63] (SEL@0 vB:a)*:b):c):c
+            1 (ADD (XOR (AND vA:a vB:a):a (AND _A:a vC:a):a)*:a (ADD (ARRAYSEL vD:(w32)u[0:63] _B:b):a (ARRAYSEL vE:(w32)u[0:63] _B:b):a):a):a
+            1 (ADD vA:a (ADD (XOR _A:a _B:a)*:a (ADD _C:a _D:a):a):a):a
+            1 (ADD vA:a (ADD vB:a (ADD _A:a _B:a):a):a):a
+            1 (ADD vA:a (XOR (AND vB:a vC:a):a (XOR _A:a _B:a):a)*:a):a
+            1 (XOR (AND vA:a vB:a):a (AND (NOT vA:a):a vC:a):a)*:a
+            1 (XOR (AND vA:a vB:a):a (XOR (AND vA:a vC:a):a (AND vB:a vC:a):a):a)*:a
 
 DFG 'post inline' patterns with depth 4
+            1 (ADD (XOR (AND vA:a vB:a):a (AND (NOT vA:a):a vC:a):a)*:a (ADD (ARRAYSEL vD:(w32)u[0:63] (SEL@0 vE:b)*:c):a (ARRAYSEL vF:(w32)u[0:63] (SEL@0 vE:b)*:c):a):a):a
+            1 (ADD vA:a (ADD (XOR (AND vB:a vC:a):a (AND _A:a vD:a):a)*:a (ADD (ARRAYSEL vE:(w32)u[0:63] _B:b):a (ARRAYSEL vF:(w32)u[0:63] _B:b):a):a):a):a
+            1 (ADD vA:a (ADD vB:a (ADD (XOR _A:a _B:a)*:a (ADD _C:a _D:a):a):a):a):a
+            1 (ADD vA:a (XOR (AND vB:a vC:a):a (XOR (AND vB:a vD:a):a (AND vC:a vD:a):a):a)*:a):a
 

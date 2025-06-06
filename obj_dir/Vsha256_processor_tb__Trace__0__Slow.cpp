@@ -12,14 +12,14 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declBit(c+100,0,"ext_clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+101,0,"test_complete",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+102,0,"test_passed",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+102,0,"ext_clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+103,0,"test_complete",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+104,0,"test_passed",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->pushPrefix("sha256_processor_tb", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+100,0,"ext_clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+101,0,"test_complete",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+102,0,"test_passed",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+100,0,"clk",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+102,0,"ext_clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+103,0,"test_complete",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+104,0,"test_passed",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+102,0,"clk",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+1,0,"rst",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+2,0,"start",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+3,0,"data_in",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 7,0);
@@ -27,11 +27,11 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     tracep->declBit(c+5,0,"data_last",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declArray(c+7,0,"hash_out",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
     tracep->declBit(c+15,0,"done",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+103,0,"FILE_SIZE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+105,0,"FILE_SIZE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+6,0,"i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INTEGER, false,-1, 31,0);
-    tracep->declArray(c+104,0,"EXPECTED_HASH",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
+    tracep->declArray(c+106,0,"EXPECTED_HASH",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
     tracep->pushPrefix("uut", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+100,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+102,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+1,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+2,0,"start",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+3,0,"data_in",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 7,0);
@@ -39,16 +39,16 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     tracep->declBit(c+5,0,"data_last",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declArray(c+7,0,"hash_out",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
     tracep->declBit(c+15,0,"done",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+103,0,"BLOCK_SIZE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+105,0,"BLOCK_SIZE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declArray(c+16,0,"block_buffer",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 511,0);
     tracep->declBus(c+32,0,"byte_index",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 5,0);
     tracep->declBit(c+33,0,"block_ready",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+34,0,"state",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
-    tracep->declBus(c+112,0,"IDLE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+113,0,"LOAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+114,0,"PAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+115,0,"HASH",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+116,0,"DONE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+114,0,"IDLE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+115,0,"LOAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+116,0,"PAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+117,0,"HASH",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+118,0,"DONE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declArray(c+35,0,"core_hash_out",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
     tracep->declBit(c+43,0,"core_ready",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+44,0,"core_start",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
@@ -64,7 +64,7 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     tracep->declBus(c+76,0,"pad_index",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 5,0);
     tracep->declBus(c+77,0,"i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INTEGER, false,-1, 31,0);
     tracep->pushPrefix("sha_core", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+100,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+102,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+1,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+44,0,"start",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declArray(c+45,0,"block_in",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 511,0);
@@ -72,14 +72,14 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     tracep->declBit(c+69,0,"use_init",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declArray(c+35,0,"hash_out",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 255,0);
     tracep->declBit(c+43,0,"ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+117,0,"H0_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+118,0,"H1_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+119,0,"H2_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+120,0,"H3_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+121,0,"H4_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+122,0,"H5_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+123,0,"H6_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+124,0,"H7_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+119,0,"H0_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+120,0,"H1_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+121,0,"H2_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+122,0,"H3_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+123,0,"H4_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+124,0,"H5_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+125,0,"H6_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+126,0,"H7_INIT",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+78,0,"a",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+79,0,"b",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+80,0,"c",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
@@ -97,15 +97,17 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_init_sub__TOP__0(Vsha256
     tracep->declBus(c+92,0,"h6",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+93,0,"h7",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+94,0,"t",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 6,0);
-    tracep->declBus(c+95,0,"msg_idx",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 6,0);
-    tracep->declBus(c+96,0,"state",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBus(c+125,0,"IDLE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBus(c+126,0,"PREP",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBus(c+127,0,"COMP",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBus(c+128,0,"DONE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBus(c+97,0,"T1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+98,0,"T2",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+99,0,"i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INTEGER, false,-1, 31,0);
+    tracep->declBus(c+95,0,"state",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBus(c+127,0,"IDLE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBus(c+128,0,"PREP",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBus(c+129,0,"COMP",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBus(c+130,0,"DONE",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBus(c+96,0,"S1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+97,0,"ch",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+98,0,"T1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+99,0,"S0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+100,0,"maj",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+101,0,"T2",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->popPrefix();
@@ -158,25 +160,25 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_const_0_sub_0(Vsha256_pr
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     // Body
-    bufp->fullIData(oldp+103,(0x40U),32);
-    bufp->fullWData(oldp+104,(Vsha256_processor_tb__ConstPool__CONST_h7044a45f_0),256);
-    bufp->fullIData(oldp+112,(0U),32);
-    bufp->fullIData(oldp+113,(1U),32);
-    bufp->fullIData(oldp+114,(2U),32);
-    bufp->fullIData(oldp+115,(3U),32);
-    bufp->fullIData(oldp+116,(4U),32);
-    bufp->fullIData(oldp+117,(0x6a09e667U),32);
-    bufp->fullIData(oldp+118,(0xbb67ae85U),32);
-    bufp->fullIData(oldp+119,(0x3c6ef372U),32);
-    bufp->fullIData(oldp+120,(0xa54ff53aU),32);
-    bufp->fullIData(oldp+121,(0x510e527fU),32);
-    bufp->fullIData(oldp+122,(0x9b05688cU),32);
-    bufp->fullIData(oldp+123,(0x1f83d9abU),32);
-    bufp->fullIData(oldp+124,(0x5be0cd19U),32);
-    bufp->fullCData(oldp+125,(0U),2);
-    bufp->fullCData(oldp+126,(1U),2);
-    bufp->fullCData(oldp+127,(2U),2);
-    bufp->fullCData(oldp+128,(3U),2);
+    bufp->fullIData(oldp+105,(0x40U),32);
+    bufp->fullWData(oldp+106,(Vsha256_processor_tb__ConstPool__CONST_h7044a45f_0),256);
+    bufp->fullIData(oldp+114,(0U),32);
+    bufp->fullIData(oldp+115,(1U),32);
+    bufp->fullIData(oldp+116,(2U),32);
+    bufp->fullIData(oldp+117,(3U),32);
+    bufp->fullIData(oldp+118,(4U),32);
+    bufp->fullIData(oldp+119,(0x6a09e667U),32);
+    bufp->fullIData(oldp+120,(0xbb67ae85U),32);
+    bufp->fullIData(oldp+121,(0x3c6ef372U),32);
+    bufp->fullIData(oldp+122,(0xa54ff53aU),32);
+    bufp->fullIData(oldp+123,(0x510e527fU),32);
+    bufp->fullIData(oldp+124,(0x9b05688cU),32);
+    bufp->fullIData(oldp+125,(0x1f83d9abU),32);
+    bufp->fullIData(oldp+126,(0x5be0cd19U),32);
+    bufp->fullCData(oldp+127,(0U),2);
+    bufp->fullCData(oldp+128,(1U),2);
+    bufp->fullCData(oldp+129,(2U),2);
+    bufp->fullCData(oldp+130,(3U),2);
 }
 
 VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_full_0_sub_0(Vsha256_processor_tb___024root* vlSelf, VerilatedVcd::Buffer* bufp);
@@ -240,12 +242,28 @@ VL_ATTR_COLD void Vsha256_processor_tb___024root__trace_full_0_sub_0(Vsha256_pro
     bufp->fullIData(oldp+92,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__h6),32);
     bufp->fullIData(oldp+93,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__h7),32);
     bufp->fullCData(oldp+94,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__t),7);
-    bufp->fullCData(oldp+95,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__msg_idx),7);
-    bufp->fullCData(oldp+96,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__state),2);
-    bufp->fullIData(oldp+97,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T1),32);
-    bufp->fullIData(oldp+98,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T2),32);
-    bufp->fullIData(oldp+99,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__i),32);
-    bufp->fullBit(oldp+100,(vlSelfRef.ext_clk));
-    bufp->fullBit(oldp+101,(vlSelfRef.test_complete));
-    bufp->fullBit(oldp+102,(vlSelfRef.test_passed));
+    bufp->fullCData(oldp+95,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__state),2);
+    bufp->fullIData(oldp+96,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S1),32);
+    bufp->fullIData(oldp+97,(((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__e 
+                               & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__f) 
+                              ^ ((~ vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__e) 
+                                 & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__g))),32);
+    bufp->fullIData(oldp+98,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T1),32);
+    bufp->fullIData(oldp+99,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S0),32);
+    bufp->fullIData(oldp+100,(((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b) 
+                               ^ ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                   & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c) 
+                                  ^ (vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b 
+                                     & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c)))),32);
+    bufp->fullIData(oldp+101,((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S0 
+                               + ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                   & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b) 
+                                  ^ ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                      & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c) 
+                                     ^ (vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b 
+                                        & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c))))),32);
+    bufp->fullBit(oldp+102,(vlSelfRef.ext_clk));
+    bufp->fullBit(oldp+103,(vlSelfRef.test_complete));
+    bufp->fullBit(oldp+104,(vlSelfRef.test_passed));
 }

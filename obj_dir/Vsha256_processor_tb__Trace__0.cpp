@@ -71,15 +71,31 @@ void Vsha256_processor_tb___024root__trace_chg_0_sub_0(Vsha256_processor_tb___02
         bufp->chgIData(oldp+91,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__h6),32);
         bufp->chgIData(oldp+92,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__h7),32);
         bufp->chgCData(oldp+93,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__t),7);
-        bufp->chgCData(oldp+94,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__msg_idx),7);
-        bufp->chgCData(oldp+95,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__state),2);
-        bufp->chgIData(oldp+96,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T1),32);
-        bufp->chgIData(oldp+97,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T2),32);
-        bufp->chgIData(oldp+98,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__i),32);
+        bufp->chgCData(oldp+94,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__state),2);
+        bufp->chgIData(oldp+95,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S1),32);
+        bufp->chgIData(oldp+96,(((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__e 
+                                  & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__f) 
+                                 ^ ((~ vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__e) 
+                                    & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__g))),32);
+        bufp->chgIData(oldp+97,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__T1),32);
+        bufp->chgIData(oldp+98,(vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S0),32);
+        bufp->chgIData(oldp+99,(((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                  & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b) 
+                                 ^ ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                     & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c) 
+                                    ^ (vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b 
+                                       & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c)))),32);
+        bufp->chgIData(oldp+100,((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__S0 
+                                  + ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                      & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b) 
+                                     ^ ((vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__a 
+                                         & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c) 
+                                        ^ (vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__b 
+                                           & vlSelfRef.sha256_processor_tb__DOT__uut__DOT__sha_core__DOT__c))))),32);
     }
-    bufp->chgBit(oldp+99,(vlSelfRef.ext_clk));
-    bufp->chgBit(oldp+100,(vlSelfRef.test_complete));
-    bufp->chgBit(oldp+101,(vlSelfRef.test_passed));
+    bufp->chgBit(oldp+101,(vlSelfRef.ext_clk));
+    bufp->chgBit(oldp+102,(vlSelfRef.test_complete));
+    bufp->chgBit(oldp+103,(vlSelfRef.test_passed));
 }
 
 void Vsha256_processor_tb___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {
